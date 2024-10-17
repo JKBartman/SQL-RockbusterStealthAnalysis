@@ -1,4 +1,4 @@
-## Find thhe average amount paid by the top 5 customers using CTE
+# Find thhe average amount paid by the top 5 customers using CTE
 With
 	top_country_cte AS (
 		select D.country
