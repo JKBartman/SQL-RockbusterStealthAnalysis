@@ -1,4 +1,4 @@
-#Use Join to find the average amount paid by the top 5 customers
+# Use Join to find the average amount paid by the top 5 customers
 select Avg (total_amount_paid) as average
 From
 (select B.customer_id,B.first_name, B.last_name, E.country, D.city,
