@@ -1,0 +1,33 @@
+#Use Join to find the average amount paid by the top 5 customers
+select Avg (total_amount_paid) as average
+From
+(select B.customer_id,B.first_name, B.last_name, E.country, D.city,
+	sum(A.amount) as total_amount_paid
+from payment A
+inner join customer B on A.customer_id = B.customer_id
+inner join address C on B.address_id = C.address_id
+inner join city D on C.city_id = D.city_id
+inner join country E on D.country_id = E.country_id
+where (E.country, D.city) IN(
+	Select D.country, C.city
+	from customer A
+	inner join address B ON A.address_id = B.address_id
+	Inner join city C on B.city_id = C.city_id
+	Inner join country D on C.country_id = D.country_id
+	where .country IN (
+		select d.country
+		from customer A
+		inner join address B on A.address_id = B.address_id
+		inner join city C on B.city_id = C.city_id
+		inner join country D ON C.country_id = D.country_id
+		Group by D.country
+		order by Count(A.customer_id) desc
+		limit 10
+		)
+	group by D.country, C.city
+	Order By Count(A.customer_id) desc
+	limit 10
+	)
+group by B.customer_id, B.first_name, B.last_name, E.country, D.city
+order by total_amount_paid desc
+limit 5) as total_amount_paid;
